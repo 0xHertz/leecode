@@ -12,17 +12,40 @@
 #include <vector>
 using namespace std;
 class Solution{
+    // 遍历，双重循环,O(n^2)
     int removeElement(vector<int>& nums, int val) {
         int numbers = 0;
         for (auto i = 0; i<nums.size() - numbers; i++) {
             if (nums[i] == val) {
                 ++numbers;
-                for (auto index=i; index<nums.size(); index++) {
+                for (auto index=i; index<nums.size()-1; index++) {
                     nums[index] = nums[index+1];
                 }
                 i--;
             }
         }
         return nums.size()-numbers;
+    }
+    // 遍历，单重循环,O(n),恍然大悟，就是快慢指针
+    int removeItem(vector<int> &nums, int val){
+        int result = 0;
+        for (int item : nums) {
+            if (item != val) {
+                // 不相等时，更新结果
+                nums[result++] = item;
+            }
+        }
+        return result;
+    }
+    // 快慢指针，单重循环完成双循环的工作，快指针：寻找新数组的元素 ，新数组就是不含有目标元素的数组，慢指针：指向更新 新数组下标的位置
+    int removeItem2(vector<int> &nums, int val){
+        int slow = 0;
+        for (int i; i<nums.size(); i++) {
+            if (nums[i] != val) {
+                // 更新结果
+                nums[slow++] = nums[i];
+            }
+        }
+        return slow;
     }
 };
